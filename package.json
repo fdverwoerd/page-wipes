@@ -1,0 +1,32 @@
+{
+  "name": "page-wipes",
+  "version": "1.0.0",
+  "description": "Star Wars-style CSS View Transition page wipes. Drop two files into any same-origin multi-page site.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./page-wipes.js",
+  "style": "./page-wipes.css",
+  "exports": {
+    ".": "./page-wipes.js",
+    "./page-wipes.css": "./page-wipes.css",
+    "./page-wipes.scss": "./page-wipes.scss",
+    "./css": "./page-wipes.css",
+    "./scss": "./page-wipes.scss"
+  },
+  "files": [
+    "page-wipes.js",
+    "page-wipes.css",
+    "page-wipes.scss",
+    "wipe-mask.svg"
+  ],
+  "keywords": [
+    "view-transitions",
+    "page-transition",
+    "css",
+    "wipe",
+    "star-wars"
+  ],
+  "scripts": {
+    "build": "sass page-wipes.scss page-wipes.css --no-source-map"
+  }
+}

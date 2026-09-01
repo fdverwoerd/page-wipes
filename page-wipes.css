@@ -1,0 +1,172 @@
+@charset "UTF-8";
+/* page-wipes — Star Wars-style CSS View Transition page wipes.
+   Techniques from https://codersblock.com/blog/star-wars-scene-transition-effects-in-css/ */
+@view-transition {
+  navigation: auto;
+}
+:root {
+  --page-wipe-duration: 0.85s;
+  --page-wipe-shape-duration: 1.2s;
+  --page-wipe-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23fff' d='M42 0h16v42h42v16H58v42H42V58H0V42h42z'/%3E%3C/svg%3E");
+}
+
+@property --wipe-radius {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: -5%;
+}
+@property --wipe-angle {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: -10deg;
+}
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+}
+::view-transition-group(root) {
+  animation-duration: var(--page-wipe-duration);
+}
+
+html:is(:active-view-transition-type(wipe-horizontal),
+:active-view-transition-type(wipe-vertical),
+:active-view-transition-type(wipe-diagonal),
+:active-view-transition-type(wipe-iris),
+:active-view-transition-type(wipe-clock),
+:active-view-transition-type(wipe-shape))::view-transition-old(root), html:is(:active-view-transition-type(wipe-horizontal),
+:active-view-transition-type(wipe-vertical),
+:active-view-transition-type(wipe-diagonal),
+:active-view-transition-type(wipe-iris),
+:active-view-transition-type(wipe-clock),
+:active-view-transition-type(wipe-shape))::view-transition-new(root) {
+  mix-blend-mode: normal;
+  animation: none;
+}
+html:is(:active-view-transition-type(wipe-horizontal),
+:active-view-transition-type(wipe-vertical),
+:active-view-transition-type(wipe-diagonal),
+:active-view-transition-type(wipe-iris),
+:active-view-transition-type(wipe-clock),
+:active-view-transition-type(wipe-shape))::view-transition-old(root) {
+  z-index: 1;
+}
+html:is(:active-view-transition-type(wipe-horizontal),
+:active-view-transition-type(wipe-vertical),
+:active-view-transition-type(wipe-diagonal),
+:active-view-transition-type(wipe-iris),
+:active-view-transition-type(wipe-clock),
+:active-view-transition-type(wipe-shape))::view-transition-new(root) {
+  z-index: 2;
+}
+
+/* Horizontal wipe — mask slides left to right */
+html:active-view-transition-type(wipe-horizontal)::view-transition-new(root) {
+  -webkit-mask-image: linear-gradient(to right, transparent 47.5%, #fff 52.5%);
+  mask-image: linear-gradient(to right, transparent 47.5%, #fff 52.5%);
+  -webkit-mask-size: 210%;
+  mask-size: 210%;
+  -webkit-mask-position: left;
+  mask-position: left;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  animation: wipe-horizontal var(--page-wipe-duration) linear forwards;
+}
+
+@keyframes wipe-horizontal {
+  to {
+    -webkit-mask-position: right;
+    mask-position: right;
+  }
+}
+/* Vertical wipe */
+html:active-view-transition-type(wipe-vertical)::view-transition-new(root) {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 47.5%, #fff 52.5%);
+  mask-image: linear-gradient(to bottom, transparent 47.5%, #fff 52.5%);
+  -webkit-mask-size: 100% 210%;
+  mask-size: 100% 210%;
+  -webkit-mask-position: top;
+  mask-position: top;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  animation: wipe-vertical var(--page-wipe-duration) linear forwards;
+}
+
+@keyframes wipe-vertical {
+  to {
+    -webkit-mask-position: bottom;
+    mask-position: bottom;
+  }
+}
+/* Diagonal wipe */
+html:active-view-transition-type(wipe-diagonal)::view-transition-new(root) {
+  -webkit-mask-image: linear-gradient(to bottom right, transparent 47.5%, #fff 52.5%);
+  mask-image: linear-gradient(to bottom right, transparent 47.5%, #fff 52.5%);
+  -webkit-mask-size: 210% 210%;
+  mask-size: 210% 210%;
+  -webkit-mask-position: left top;
+  mask-position: left top;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  animation: wipe-diagonal var(--page-wipe-duration) linear forwards;
+}
+
+@keyframes wipe-diagonal {
+  to {
+    -webkit-mask-position: right bottom;
+    mask-position: right bottom;
+  }
+}
+/* Iris wipe — radial reveal from the center */
+html:active-view-transition-type(wipe-iris)::view-transition-new(root) {
+  --wipe-radius: -5%;
+  -webkit-mask-image: radial-gradient(circle, #fff calc(var(--wipe-radius) - 5%), transparent calc(var(--wipe-radius) + 5%));
+  mask-image: radial-gradient(circle, #fff calc(var(--wipe-radius) - 5%), transparent calc(var(--wipe-radius) + 5%));
+  animation: wipe-iris var(--page-wipe-duration) linear forwards;
+}
+
+@keyframes wipe-iris {
+  to {
+    --wipe-radius: 105%;
+  }
+}
+/* Clock wipe — conic reveal around the center */
+html:active-view-transition-type(wipe-clock)::view-transition-new(root) {
+  --wipe-angle: -10deg;
+  -webkit-mask-image: conic-gradient(#fff 0deg, #fff calc(var(--wipe-angle) - 10deg), transparent calc(var(--wipe-angle) + 10deg), transparent 360deg), conic-gradient(transparent 340deg, #fff 360deg);
+  mask-image: conic-gradient(#fff 0deg, #fff calc(var(--wipe-angle) - 10deg), transparent calc(var(--wipe-angle) + 10deg), transparent 360deg), conic-gradient(transparent 340deg, #fff 360deg);
+  animation: wipe-clock var(--page-wipe-duration) linear forwards;
+}
+
+@keyframes wipe-clock {
+  to {
+    --wipe-angle: 370deg;
+  }
+}
+/* Shape zoom — mask grows until it covers the page */
+html:active-view-transition-type(wipe-shape)::view-transition-group(root) {
+  animation-duration: var(--page-wipe-shape-duration);
+}
+html:active-view-transition-type(wipe-shape)::view-transition-new(root) {
+  filter: brightness(0%);
+  -webkit-mask-image: var(--page-wipe-mask);
+  mask-image: var(--page-wipe-mask);
+  -webkit-mask-size: 8%;
+  mask-size: 8%;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  animation: wipe-shape var(--page-wipe-shape-duration) cubic-bezier(1, 0, 1, 1) forwards;
+}
+
+@keyframes wipe-shape {
+  25% {
+    filter: brightness(100%);
+  }
+  100% {
+    filter: brightness(100%);
+    -webkit-mask-size: 2000%;
+    mask-size: 2000%;
+  }
+}
