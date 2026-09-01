@@ -9,14 +9,11 @@
   "exports": {
     ".": "./page-wipes.js",
     "./page-wipes.css": "./page-wipes.css",
-    "./page-wipes.scss": "./page-wipes.scss",
-    "./css": "./page-wipes.css",
-    "./scss": "./page-wipes.scss"
+    "./css": "./page-wipes.css"
   },
   "files": [
     "page-wipes.js",
     "page-wipes.css",
-    "page-wipes.scss",
     "wipe-mask.svg"
   ],
   "keywords": [
@@ -25,8 +22,5 @@
     "css",
     "wipe",
     "star-wars"
-  ],
-  "scripts": {
-    "build": "sass page-wipes.scss page-wipes.css --no-source-map"
-  }
+  ]
 }

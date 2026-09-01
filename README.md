@@ -74,9 +74,3 @@ The shape wipe ships an inlined plus/crosshair. Override it:
   --page-wipe-shape-duration: 1.2s;
 }
 ```
-
-## Rebuild CSS
-
-```bash
-npx sass page-wipes.scss page-wipes.css --no-source-map
-```
